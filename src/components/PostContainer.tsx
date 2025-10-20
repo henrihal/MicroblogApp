@@ -1,13 +1,13 @@
-import Post from './Post'
-const PostContainer = () => {
-    const userId=125
-    const userName="Henak"
-    const title="Testailua"
-    const content="something that is interesting something that is interesting something that is interesting something that is interesting "
-
+import PostComponent from './Post'
+import type { Post } from './Post.interface'
+const PostContainer = ({post}: {post: Post}) => {
+    const userId = post.user_id
+    const userName = "placeholder"
+    const title = post.title
+    const content = post.content
 return(
-    <section className="flex justify-center">
-        <Post
+    <section className="flex justify-center p-1">
+        <PostComponent
          userId={userId}
          userName={userName}
          title={title}
