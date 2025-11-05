@@ -3,6 +3,8 @@ import Navbar from './components/Navbar'
 import PostContainer from './components/PostContainer'
 import postService from './services/postService'
 import type {Post} from './components/Post.interface'
+import { MantineProvider } from '@mantine/core'
+import '@mantine/core/styles.css'
 
 function App() {
   const [posts, setPosts] = useState<Post[]>([{
@@ -21,12 +23,14 @@ function App() {
   }, [])
 
   return (
-    <body className=" bg-sky-900">
-    <Navbar />
-    {posts.map(post =>
-      <PostContainer key={post.id} post={post} />
-    )}
-    </body>
+  <MantineProvider>{
+    <div className=" bg-sky-900">
+      <Navbar />
+      {posts.map(post =>
+        <PostContainer key={post.id} post={post} />
+      )}
+    </div>
+  }</MantineProvider>
   )
 }
 
