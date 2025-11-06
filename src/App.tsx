@@ -34,7 +34,7 @@ function App() {
 
   return (
   <MantineProvider>
-    <div className="min-h-screen bg-sky-900/80">
+    <div className="min-h-screen bg-slate-900/98">
       <Navbar />
       <div className="flex flex-col items-center">
         {loading && 

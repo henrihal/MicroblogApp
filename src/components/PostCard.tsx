@@ -26,12 +26,14 @@ const PostContainer = ({post}: {post: Post}) => {
   
 
   return (
-    <div className="py-1 px-5 w-full max-w-lg min-w-xs">
-      <Paper shadow="md" p="sm">
-        <Text size="xl"><a href={`/profile/${post.user_id}`}>{user}</a></Text>
-        <Divider my="sx" />
-        <Text size="lg">{post.title}</Text>
-        <Text>{post.content}</Text>
+    <div className="px-5 w-full max-w-lg min-w-xs text-white">
+      <Paper p="sm" radius="xs" bg="rgba(0, 0, 0, 0)" className="border-1 border-gray-300/10 ">
+        <div className="flex items-baseline gap-2">
+          <Text size="sm">{post.title}</Text>
+          <Text size="xs" c="gray"><a href={`/profile/${post.user_id}`}>{`@${user}#${post.user_id}`}</a></Text>
+        </div>
+        <Divider color="gray" className="my-1"/>
+        <Text size="xs">{post.content}</Text>
       </Paper>
     </div>
   );

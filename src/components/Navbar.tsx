@@ -9,7 +9,7 @@ const navLinks = [
 
 const navItems = navLinks.map((item) => (
     <a
-        className="hover:bg-gray-400/40 p-3 rounded-2xl"
+        className="hover:bg-gray-400/10 p-2 rounded-md "
         href={item.link}
         key={item.label}
     >
@@ -18,9 +18,9 @@ const navItems = navLinks.map((item) => (
 ))
 
 return(
-    <header className="h-[50px] bg-sky-950 flex items-center">
+    <header className="h-[50px] bg-transparent flex items-center">
         <Container className="">
-            <Box className="text-xl text-white">
+            <Box className="text-sm font-bold text-white">
                 <Group gap={0}>
                 {navItems}
                 </Group>
