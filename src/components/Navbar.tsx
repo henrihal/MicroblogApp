@@ -1,23 +1,32 @@
+import { Box, Container, Group } from "@mantine/core"
 
 const Navbar = () => {
-    const links = [
-        {name: "Home", link: "/"},
-        {name: "Search", link: "/search"},
-        {name: "Profile", link: "/profile"}
-    ]
-    return(
-         <nav className="sticky top-0 w-max mx-auto py-1">
-            <ul className="flex justify-center text-lg w-md bg-white/20 backdrop-blur-sm rounded-2xl shadow-sm font-mono">
-                {links.map((link) => (
-                    <a href={link.link} key={link.name}>
-                        <li className="hover:bg-gray-100/60 py-3 px-6 rounded-2xl">
-                            {link.name}
-                        </li>
-                    </a>
-                ))}
-            </ul>
-        </nav>
-    )
+const navLinks = [
+    {label:'Home', link:'/'},
+    {label:'Search', link:'/search'},
+    {label:'Profile', link:'/profile'}
+]
+
+const navItems = navLinks.map((item) => (
+    <a
+        className="hover:bg-gray-400/40 p-3 rounded-2xl"
+        href={item.link}
+        key={item.label}
+    >
+        {item.label}
+    </a>
+))
+
+return(
+    <header className="h-[50px] bg-sky-950 flex items-center">
+        <Container className="">
+            <Box className="text-xl text-white">
+                <Group gap={0}>
+                {navItems}
+                </Group>
+            </Box>
+        </Container>
+    </header>
+)
 }
 export default Navbar
-

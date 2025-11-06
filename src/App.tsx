@@ -1,18 +1,13 @@
 import { useEffect, useState } from 'react'
-import Navbar from './components/Navbar'
-import PostContainer from './components/PostContainer'
+import Navbar from './components/NavbarTest'
+import PostCard from './components/PostCard'
 import postService from './services/postService'
-import type {Post} from './components/Post.interface'
 import { MantineProvider } from '@mantine/core'
 import '@mantine/core/styles.css'
+import type { Post } from './components/Post.interface'
 
 function App() {
-  const [posts, setPosts] = useState<Post[]>([{
-    id: 0,
-    user_id: 0,
-    title: '',
-    content: ''
-  }])
+  const [posts, setPosts] = useState<Post[]>([])
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -24,11 +19,14 @@ function App() {
 
   return (
   <MantineProvider>{
-    <div className=" bg-sky-900">
+    <div className="min-h-screen bg-sky-900/80">
       <Navbar />
-      {posts.map(post =>
-        <PostContainer key={post.id} post={post} />
-      )}
+      <div className="flex flex-col items-center">
+        {posts.length > 0 && 
+        posts.map(post =>
+          <PostCard key={post.id} post={post} />
+        )}
+      </div>
     </div>
   }</MantineProvider>
   )
