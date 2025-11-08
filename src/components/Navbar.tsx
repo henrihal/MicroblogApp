@@ -1,4 +1,5 @@
 import { Box, Container, Group } from "@mantine/core"
+import { Link } from "react-router"
 
 const Navbar = () => {
 const navLinks = [
@@ -8,13 +9,13 @@ const navLinks = [
 ]
 
 const navItems = navLinks.map((item) => (
-    <a
+    <Link
         className="hover:bg-gray-400/10 p-2 rounded-md "
-        href={item.link}
+        to={item.link}
         key={item.label}
     >
         {item.label}
-    </a>
+    </Link>
 ))
 
 return(

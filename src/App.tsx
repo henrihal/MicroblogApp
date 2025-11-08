@@ -3,6 +3,7 @@ import { MantineProvider } from '@mantine/core'
 import '@mantine/core/styles.css'
 import { BrowserRouter, Route, Routes } from 'react-router'
 import Home from './pages/Home'
+import Profile from './pages/Profile'
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
           <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="profile" element={<Profile />} />
           </Routes>
         </div>
       </BrowserRouter>
