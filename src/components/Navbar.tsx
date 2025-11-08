@@ -19,10 +19,10 @@ const navItems = navLinks.map((item) => (
 ))
 
 return(
-    <header className="h-[50px] bg-transparent flex items-center">
+    <header className="h-[50px] bg-transparent">
         <Container className="">
             <Box className="text-sm font-bold text-white">
-                <Group gap={0}>
+                <Group gap={0} justify="center">
                 {navItems}
                 </Group>
             </Box>
