@@ -1,6 +1,12 @@
 
 const baseUrl = 'http://localhost:5001/api/post'
 
+let token = null
+
+const setToken = (newToken: string) => {
+    token = `bearer ${newToken}`
+}
+
 const getAll = async ({ user_id }: { user_id?: string } = {}) => {
     const userParam = user_id ? `&user_id=${user_id}` : ''
     try {
@@ -35,4 +41,4 @@ const getBySearch = async(query: string) => {
     }
 }
 
-export default {getAll, getBySearch}
+export default {getAll, getBySearch, setToken}

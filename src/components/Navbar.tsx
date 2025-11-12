@@ -1,10 +1,10 @@
 import { Box, Container, Group } from "@mantine/core"
 import { Link, useNavigate } from "react-router"
 
-const Navbar = ({ searchQuery, onSearchChange }: { searchQuery: string, onSearchChange: (query: string) => void }) => {
+const Navbar = ({userId, searchQuery, onSearchChange }: { userId: string, searchQuery: string, onSearchChange: (query: string) => void }) => {
     const navLinks = [
         { label: 'Home', link: '/' },
-        { label: 'Profile', link: '/profile' }
+        { label: 'Profile', link: `/profile/${userId}` }
     ]
 
     const navigate = useNavigate()

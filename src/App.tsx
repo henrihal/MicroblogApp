@@ -1,24 +1,64 @@
 import Navbar from './components/Navbar'
+import AuthenticationTitle from './components/AuthenticationTitle'
+import type { Data } from './components/AuthenticationTitle'
 import { MantineProvider } from '@mantine/core'
 import '@mantine/core/styles.css'
 import { BrowserRouter, Route, Routes } from 'react-router'
 import Home from './pages/Home'
 import Profile from './pages/Profile'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import loginSerivce from './services/loginSerivce'
+import postService from './services/postService'
+
+interface User{
+  user:{
+    id: string,
+    email: string
+  },
+  token: string
+}
 
 function App() {
 
   const [searchQuery, setSearchQuery] = useState('')
+  const [user, setUser] = useState<null | User>(null)
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedUser')
+    if(loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      postService.setToken(user.token)
+    }
+  }, [])
+
+  const handleLogin = async (data: Data) => {
+    try {
+      const loggedUser = await loginSerivce.login({ email: data.email, password: data.password })
+      if(data.rememberMe) {
+      window.localStorage.setItem('loggedUser', JSON.stringify(loggedUser))
+      }
+      setUser(loggedUser)
+      postService.setToken(loggedUser.token)
+    } catch (err) {
+      console.log('Failed to login: ', err)
+    }
+  }
 
   return (
     <MantineProvider>
       <BrowserRouter>
         <div className="min-h-screen bg-slate-900/98">
-          <Navbar searchQuery={searchQuery} onSearchChange={setSearchQuery} />
-          <Routes>
-            <Route path="/" element={<Home searchQuery={searchQuery} />} />
-            <Route path="profile/:id" element={<Profile />} />
-          </Routes>
+          {!user && <AuthenticationTitle onSubmit={handleLogin} />}
+          {user &&
+            <div>
+              <Navbar searchQuery={searchQuery} onSearchChange={setSearchQuery} userId={user.user.id}/>
+              <Routes>
+                <Route path="/" element={<Home searchQuery={searchQuery} />} />
+                <Route path="profile/:id" element={<Profile />} />
+              </Routes>
+            </div>
+          }
         </div>
       </BrowserRouter>
     </MantineProvider>

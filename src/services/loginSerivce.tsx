@@ -7,14 +7,14 @@ const login = async (userCredentials: { email: string, password: string }) => {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ userCredentials })
+            body: JSON.stringify( userCredentials )
         })
         if (!response.ok) {
             throw new Error(`Login failed with status: ${response.status}`)
         }
         const result = await response.json()
 
-        return result
+        return result.data
 
     } catch (err: unknown) {
         if (err instanceof Error) {
