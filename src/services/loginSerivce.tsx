@@ -4,19 +4,17 @@ const login = async (userCredentials: { email: string, password: string }) => {
     try {
         const response = await fetch(baseUrl, {
             method: "POST",
-            body: JSON.stringify({ email: userCredentials.email, password: userCredentials.password })
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ userCredentials })
         })
         if (!response.ok) {
-            return new Error(`Response status: ${response.status}`)
+            throw new Error(`Login failed with status: ${response.status}`)
         }
         const result = await response.json()
-        return {
-            token: result.token,
-            user: {
-                id: result.user.id,
-                email: result.user.email
-            }
-        }
+
+        return result
 
     } catch (err: unknown) {
         if (err instanceof Error) {
