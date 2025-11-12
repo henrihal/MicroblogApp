@@ -21,4 +21,20 @@ const getAll = async ({ user_id }: { user_id?: string } = {}) => {
 
 }
 
-export default {getAll}
+const getBySearch = async(query: string) => {
+    try {
+        const response = await fetch(`${baseUrl}/search?search=${query}`)
+        if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`)
+        }
+        const results = await response.json()
+
+        return results.data
+    } catch (err: unknown) {
+        if (err instanceof Error) {
+            console.log(err.message)
+        }
+    }
+}
+
+export default {getAll, getBySearch}
