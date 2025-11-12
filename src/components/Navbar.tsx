@@ -17,12 +17,12 @@ const Navbar = ({ searchQuery, onSearchChange }: { searchQuery: string, onSearch
     }
 
     return (
-        <header className="h-[50px] bg-transparent">
+        <header className="h-[50px] pt-2 bg-transparent">
             <Container>
                 <Box className="text-sm font-bold text-white">
-                    <Group gap={0} justify="center">
+                    <Group gap={5} justify="center" className="">
                         <Link
-                            className="hover:bg-gray-400/10 p-2 rounded-md "
+                            className="hover:bg-gray-400/10 rounded-md py-1 px-2"
                             to={navLinks[0].link}
                             key={navLinks[0].label}
                         >
@@ -38,7 +38,7 @@ const Navbar = ({ searchQuery, onSearchChange }: { searchQuery: string, onSearch
                             />
                         </div>
                         <Link
-                            className="hover:bg-gray-400/10 p-2 rounded-md "
+                            className="hover:bg-gray-400/10 rounded-md py-1 px-2"
                             to={navLinks[1].link}
                             key={navLinks[1].label}
                         >
