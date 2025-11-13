@@ -25,7 +25,7 @@ const getAll = async ({ user_id }: { user_id?: string } = {}) => {
 
 }
 
-const getBySearch = async(query: string) => {
+const getBySearch = async (query: string) => {
     try {
         const response = await fetch(`${baseUrl}/search?search=${query}`)
         if (!response.ok) {
@@ -41,4 +41,27 @@ const getBySearch = async(query: string) => {
     }
 }
 
-export default {getAll, getBySearch, setToken}
+const create = async (post: { title: string, content: string }) => {
+    try {
+        const response = await fetch(baseUrl, {
+            method: "POST",
+            headers: {
+                "Authorization": token!,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(post)
+        })
+        if (!response.ok) {
+            throw new Error(`Error creating post with status ${response.status}`)
+        }
+        const result = await response.json()
+
+        return result.data
+    } catch (err: unknown) {
+        if (err instanceof Error) {
+            console.log(err.message)
+        }
+    }
+}
+
+export default { getAll, getBySearch, setToken, create }
