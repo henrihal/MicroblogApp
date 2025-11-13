@@ -1,4 +1,5 @@
 import Navbar from './components/Navbar'
+import Footer from './components/Footer'
 import AuthenticationTitle from './components/AuthenticationTitle'
 import type { Data } from './components/AuthenticationTitle'
 import { MantineProvider } from '@mantine/core'
@@ -34,11 +35,11 @@ function App() {
 
   const handleLogin = async (data: Data) => {
     try {
-      const loggedUser = await loginSerivce.login({ email: data.email, password: data.password })
-      if(data.rememberMe) {
-      window.localStorage.setItem('loggedUser', JSON.stringify(loggedUser))
-      }
+      const loggedUser = await loginSerivce.login({ email: data.email, password: data.password }) as User
       setUser(loggedUser)
+      if(data.rememberMe && user) {
+      window.localStorage.setItem('loggedUser', JSON.stringify(user))
+      }
       postService.setToken(loggedUser.token)
     } catch (err) {
       console.log('Failed to login: ', err)
@@ -48,10 +49,10 @@ function App() {
   return (
     <MantineProvider>
       <BrowserRouter>
-        <div className="min-h-screen bg-slate-900/98">
+        <div className="min-h-screen bg-slate-900/98 flex flex-col">
           {!user && <AuthenticationTitle onSubmit={handleLogin} />}
           {user &&
-            <div>
+            <div className="flex-1 pb-5">
               <Navbar searchQuery={searchQuery} onSearchChange={setSearchQuery} userId={user.user.id}/>
               <Routes>
                 <Route path="/" element={<Home searchQuery={searchQuery} />} />
@@ -59,6 +60,7 @@ function App() {
               </Routes>
             </div>
           }
+          <Footer />
         </div>
       </BrowserRouter>
     </MantineProvider>
