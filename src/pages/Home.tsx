@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import postService from "../services/postService"
 import type { Post } from "../components/Post.interface"
 import PostCard from "../components/PostCard"
+import Createpostbutton from "../components/Createpostbutton"
 
 
 function Home({ searchQuery }: { searchQuery: string }) {
@@ -54,9 +55,15 @@ function Home({ searchQuery }: { searchQuery: string }) {
         <div className="text-white text-lg text-center py-5">No posts available.</div>
       }
       {!loading && !error && posts.length > 0 &&
-        posts.map(post =>
+      <div>
+        <div>
+          {posts.map(post =>
           <PostCard key={post.id} post={post} />
         )}
+        </div>
+        <Createpostbutton onClick={() => null}/>
+        </div>
+        }
     </div>
   )
 }
