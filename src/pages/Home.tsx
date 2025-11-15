@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import postService from "../services/postService"
 import type { Post } from "../components/Post.interface"
 import PostCard from "../components/PostCard"
-import Createpostbutton from "../components/Createpostbutton"
+import Createpostmodal from "../components/Createpostmodal"
 
 
 function Home({ searchQuery }: { searchQuery: string }) {
@@ -61,7 +61,7 @@ function Home({ searchQuery }: { searchQuery: string }) {
           <PostCard key={post.id} post={post} />
         )}
         </div>
-        <Createpostbutton onClick={() => null}/>
+        <Createpostmodal />
         </div>
         }
     </div>

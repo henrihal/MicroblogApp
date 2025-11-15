@@ -35,10 +35,10 @@ function App() {
 
   const handleLogin = async (data: Data) => {
     try {
-      const loggedUser = await loginSerivce.login({ email: data.email, password: data.password }) as User
+      const loggedUser = await loginSerivce.login({ email: data.email, password: data.password })
       setUser(loggedUser)
-      if(data.rememberMe && user) {
-      window.localStorage.setItem('loggedUser', JSON.stringify(user))
+      if(data.rememberMe) {
+        window.localStorage.setItem('loggedUser', JSON.stringify(loggedUser))
       }
       postService.setToken(loggedUser.token)
     } catch (err) {
