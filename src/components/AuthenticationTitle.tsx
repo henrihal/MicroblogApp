@@ -1,12 +1,12 @@
 import { useState } from 'react';
 
-export interface Data {
+export interface LoginData {
   email: string,
   password: string,
   rememberMe: boolean
 }
 
-function AuthenticationTitle({onSubmit}: {onSubmit: (data: Data) => void} ) {
+const AuthenticationTitle = ({onSubmit}: {onSubmit: (data: LoginData) => void} ) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
@@ -23,7 +23,7 @@ function AuthenticationTitle({onSubmit}: {onSubmit: (data: Data) => void} ) {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-110">
+    <div className="flex-1 mx-auto my-10">
       <div className="w-full max-w-xs">
         {/* Title */}
         <h1 className="text-center text-xl font-bold text-white mb-1">

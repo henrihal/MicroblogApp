@@ -55,7 +55,7 @@ const create = async (post: { title: string, content: string }) => {
             throw new Error(`Error creating post with status ${response.status}`)
         }
         const result = await response.json()
-
+        console.log(result)
         return result.data
     } catch (err: unknown) {
         if (err instanceof Error) {

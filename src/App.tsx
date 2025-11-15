@@ -1,7 +1,7 @@
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import AuthenticationTitle from './components/AuthenticationTitle'
-import type { Data } from './components/AuthenticationTitle'
+import type { LoginData } from './components/AuthenticationTitle'
 import { MantineProvider } from '@mantine/core'
 import '@mantine/core/styles.css'
 import { BrowserRouter, Route, Routes } from 'react-router'
@@ -33,7 +33,7 @@ function App() {
     }
   }, [])
 
-  const handleLogin = async (data: Data) => {
+  const handleLogin = async (data: LoginData) => {
     try {
       const loggedUser = await loginSerivce.login({ email: data.email, password: data.password })
       setUser(loggedUser)
