@@ -2,7 +2,8 @@ import { useEffect, useState } from "react"
 import postService from "../services/postService"
 import type { Post } from "../components/Post.interface"
 import PostCard from "../components/PostCard"
-
+import Createpostmodal from "../components/Createpostmodal"
+import type { PostData } from "../components/Createpostmodal"
 
 function Home({ searchQuery }: { searchQuery: string }) {
   const [posts, setPosts] = useState<Post[]>([])
@@ -42,6 +43,15 @@ function Home({ searchQuery }: { searchQuery: string }) {
 
   }, [searchQuery])
 
+  const handleCreatePost = async (post: PostData) => {
+    try{
+    const createdPost = await postService.create(post)
+    setPosts(posts.concat(createdPost))
+    } catch (err) {
+      console.log('Failed to create a post: ', err)
+    }
+  }
+
   return (
     <div className="flex flex-col items-center">
       {loading &&
@@ -54,9 +64,15 @@ function Home({ searchQuery }: { searchQuery: string }) {
         <div className="text-white text-lg text-center py-5">No posts available.</div>
       }
       {!loading && !error && posts.length > 0 &&
-        posts.map(post =>
+      <div>
+        <div>
+          {posts.map(post =>
           <PostCard key={post.id} post={post} />
         )}
+        </div>
+        <Createpostmodal onSubmit={handleCreatePost}/>
+        </div>
+        }
     </div>
   )
 }

@@ -27,7 +27,7 @@ const PostContainer = ({post}: {post: Post}) => {
   
 
   return (
-    <div className="px-5 w-full max-w-lg min-w-xs text-white">
+    <div className="px-5 w-full max-w-lg min-w-lg text-white">
       <Paper p="sm" radius="xs" bg="rgba(0, 0, 0, 0)" className="border-1 border-gray-300/10">
         <div className="flex items-baseline gap-2">
           <Text size="sm">{post.title}</Text>
