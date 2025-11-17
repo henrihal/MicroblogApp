@@ -30,11 +30,11 @@ const PostContainer = ({post}: {post: Post}) => {
     <div className="px-5 w-full max-w-lg min-w-lg text-white">
       <Paper p="sm" radius="xs" bg="rgba(0, 0, 0, 0)" className="border-1 border-gray-300/10">
         <div className="flex items-baseline gap-2">
-          <Text size="sm">{post.title}</Text>
-          <Text size="xs" c="gray"><Link to={`/profile/${post.user_id}`}>{`@${user}#${post.user_id}`}</Link></Text>
+          <Text size="md">{post.title}</Text>
+          <Text size="sm" c="gray"><Link to={`/profile/${post.user_id}`}>{`@${user}#${post.user_id}`}</Link></Text>
         </div>
         <Divider color="gray" className="my-1"/>
-        <Text size="xs">{post.content}</Text>
+        <Text size="sm">{post.content}</Text>
       </Paper>
     </div>
   );
