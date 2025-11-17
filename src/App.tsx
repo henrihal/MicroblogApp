@@ -1,7 +1,7 @@
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
-import AuthenticationTitle from './components/AuthenticationTitle'
-import type { LoginData } from './components/AuthenticationTitle'
+import Login from './pages/Login'
+import type { LoginData } from './pages/Login'
 import { MantineProvider } from '@mantine/core'
 import '@mantine/core/styles.css'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router'
@@ -11,6 +11,8 @@ import { useEffect, useState } from 'react'
 import loginSerivce from './services/loginSerivce'
 import postService from './services/postService'
 import PageNotFound from './pages/PageNotFound'
+import Register, { type RegisterData } from './pages/Register'
+import userService from './services/userService'
 
 interface User{
   user:{
@@ -36,7 +38,7 @@ function App() {
 
   const handleLogin = async (data: LoginData) => {
     try {
-      const loggedUser = await loginSerivce.login({ email: data.email, password: data.password })
+      const loggedUser = await loginSerivce.login(data)
       setUser(loggedUser)
       if(data.rememberMe) {
         window.localStorage.setItem('loggedUser', JSON.stringify(loggedUser))
@@ -44,6 +46,18 @@ function App() {
       postService.setToken(loggedUser.token)
     } catch (err) {
       console.log('Failed to login: ', err)
+    }
+  }
+
+  const handleCreateUser = async (data: RegisterData) => {
+    try {
+      const registeredUser = await userService.create(data)
+      if(!registeredUser) {
+        throw new Error('Failed to register user')
+      }
+      console.log('New user registered: ', registeredUser)
+    } catch(err) {
+      console.log(err)
     }
   }
 
@@ -56,7 +70,8 @@ function App() {
               <Navbar searchQuery={searchQuery} onSearchChange={setSearchQuery} userId={user.user.id}/>
               }
               <Routes>
-                <Route path="login" element={!user ? <AuthenticationTitle onSubmit={handleLogin}/> : <Navigate replace to={"/"}/>} />
+                <Route path="login" element={!user ? <Login onSubmit={handleLogin}/> : <Navigate replace to={"/"}/>} />
+                <Route path="register" element={!user ? <Register onSubmit={handleCreateUser} /> : <Navigate replace to={"/"}/>} />
                 <Route path="/" element={user ? <Home searchQuery={searchQuery} /> : <Navigate replace to ={"login"}/>} />
                 <Route path="profile/:id" element={<Profile />} />
                 <Route path="*" element={<PageNotFound />} />
