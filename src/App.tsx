@@ -4,12 +4,13 @@ import AuthenticationTitle from './components/AuthenticationTitle'
 import type { LoginData } from './components/AuthenticationTitle'
 import { MantineProvider } from '@mantine/core'
 import '@mantine/core/styles.css'
-import { BrowserRouter, Route, Routes } from 'react-router'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router'
 import Home from './pages/Home'
 import Profile from './pages/Profile'
 import { useEffect, useState } from 'react'
 import loginSerivce from './services/loginSerivce'
 import postService from './services/postService'
+import PageNotFound from './pages/PageNotFound'
 
 interface User{
   user:{
@@ -50,16 +51,17 @@ function App() {
     <MantineProvider>
       <BrowserRouter>
         <div className="min-h-screen bg-slate-900/98 flex flex-col">
-          {!user && <AuthenticationTitle onSubmit={handleLogin} />}
-          {user &&
             <div className="flex-1 pb-5">
+              {user && 
               <Navbar searchQuery={searchQuery} onSearchChange={setSearchQuery} userId={user.user.id}/>
+              }
               <Routes>
-                <Route path="/" element={<Home searchQuery={searchQuery} />} />
+                <Route path="login" element={!user ? <AuthenticationTitle onSubmit={handleLogin}/> : <Navigate replace to={"/"}/>} />
+                <Route path="/" element={user ? <Home searchQuery={searchQuery} /> : <Navigate replace to ={"login"}/>} />
                 <Route path="profile/:id" element={<Profile />} />
+                <Route path="*" element={<PageNotFound />} />
               </Routes>
             </div>
-          }
           <Footer />
         </div>
       </BrowserRouter>

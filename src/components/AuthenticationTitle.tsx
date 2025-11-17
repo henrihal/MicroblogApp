@@ -23,8 +23,7 @@ const AuthenticationTitle = ({onSubmit}: {onSubmit: (data: LoginData) => void} )
   };
 
   return (
-    <div className="flex-1 mx-auto my-10">
-      <div className="w-full max-w-xs">
+      <div className="w-full max-w-xs my-10 mx-auto">
         {/* Title */}
         <h1 className="text-center text-xl font-bold text-white mb-1">
           Welcome back!
@@ -97,7 +96,6 @@ const AuthenticationTitle = ({onSubmit}: {onSubmit: (data: LoginData) => void} )
           </form>
         </div>
       </div>
-    </div>
   );
 }
 
