@@ -19,7 +19,7 @@ const Navbar = ({userId, searchQuery, onSearchChange }: { userId: string, search
     return (
         <header className="h-[50px] pt-2 bg-transparent">
             <Container>
-                <Box className="text-sm font-bold text-white">
+                <Box className="text-md font-bold text-white">
                     <Group gap={5} justify="center" className="">
                         <Link
                             className="hover:bg-gray-400/10 rounded-md py-1 px-2"
@@ -28,7 +28,7 @@ const Navbar = ({userId, searchQuery, onSearchChange }: { userId: string, search
                         >
                             {navLinks[0].label}
                         </Link>
-                        <div className="font-normal text-xs">
+                        <div className="font-normal text-md">
                             <input type="text"
                                 placeholder="Search..."
                                 value={searchQuery}

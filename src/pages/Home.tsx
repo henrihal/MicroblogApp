@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react"
 import postService from "../services/postService"
 import type { Post } from "../components/Post.interface"
-import PostCard from "../components/PostCard"
+import PostCard from "../components/PostContainer"
 import Createpostmodal from "../components/Createpostmodal"
 import type { PostData } from "../components/Createpostmodal"
+import PostContainerSkeleton from "../components/PostContainerSkeleton"
 
 function Home({ searchQuery }: { searchQuery: string }) {
   const [posts, setPosts] = useState<Post[]>([])
@@ -51,11 +52,16 @@ function Home({ searchQuery }: { searchQuery: string }) {
       console.log('Failed to create a post: ', err)
     }
   }
+  const skeletonLoader = 6 // amount of skeleton posts for loading animation
 
   return (
     <div className="flex flex-col items-center">
       {loading &&
-        <div className="animate-pulse text-white text-lg text-center py-5">Loading posts...</div>
+        <div>
+          {Array.from({length: skeletonLoader}).map(() => (
+            <PostContainerSkeleton />
+          ))}
+        </div>
       }
       {!loading && error &&
         <div className="text-white text-lg text-center py-5">An error occurred fetching posts... </div>

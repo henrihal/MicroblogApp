@@ -135,7 +135,7 @@ const Createpostmodal = ({onSubmit}: {onSubmit: (data: PostData) => void}) => {
                                     </button>
                                     <button
                                         type="submit"
-                                        className="flex-1 px-3 py-1.5 bg-sky-600 text-white rounded text-xs hover:bg-sky-700 cursor-pointer transition-colors font-medium"
+                                        className="flex-1 px-3 py-1.5 bg-sky-600 text-white rounded text-xs hover:bg-sky-700 cursor-pointer transition-colors"
                                     >
                                         Post
                                     </button>

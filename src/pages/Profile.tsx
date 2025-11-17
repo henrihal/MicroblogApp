@@ -4,7 +4,8 @@ import { useEffect, useState } from "react"
 import ProfileCard from "../components/ProfileCard"
 import type { Post } from "../components/Post.interface"
 import postService from "../services/postService"
-import PostCard from "../components/PostCard"
+import PostCard from "../components/PostContainer"
+import PostContainerSkeleton from "../components/PostContainerSkeleton"
 
 function Profile() {
 
@@ -55,12 +56,23 @@ function Profile() {
             fetchPosts()
           }, [params.id])
 
+          const skeletonLoader = 3 // amount of skeleton posts for loading animation
+
     return(
         <div className="flex flex-col items-center">
+        {user &&
         <ProfileCard userName={user} userId={params.id!}/>
-        {loading && 
-        <div className="animate-pulse text-white text-lg text-center py-5">Loading posts...</div>
         }
+        {!user &&
+        <div className="text-white text-lg text-center py-5">No user available </div>
+        }
+        {loading &&
+        <div>
+          {Array.from({length: skeletonLoader}).map(() => (
+            <PostContainerSkeleton />
+          ))}
+        </div>
+      }
         {!loading && error && 
         <div className="text-white text-lg text-center py-5">An error occurred fetching posts... </div>
         }
