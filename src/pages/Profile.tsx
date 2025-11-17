@@ -57,7 +57,12 @@ function Profile() {
 
     return(
         <div className="flex flex-col items-center">
+        {user &&
         <ProfileCard userName={user} userId={params.id!}/>
+        }
+        {!user &&
+        <div className="text-white text-lg text-center py-5">No user available </div>
+        }
         {loading && 
         <div className="animate-pulse text-white text-lg text-center py-5">Loading posts...</div>
         }
