@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import ProfileCard from "../components/ProfileCard"
 import type { Post } from "../components/Post.interface"
 import postService from "../services/postService"
-import PostCard from "../components/PostCard"
+import PostCard from "../components/PostCostainer"
 
 function Profile() {
 

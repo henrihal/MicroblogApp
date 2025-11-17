@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import postService from "../services/postService"
 import type { Post } from "../components/Post.interface"
-import PostCard from "../components/PostCard"
+import PostCard from "../components/PostCostainer"
 import Createpostmodal from "../components/Createpostmodal"
 import type { PostData } from "../components/Createpostmodal"
 
