@@ -7,7 +7,7 @@ export interface LoginData {
   rememberMe: boolean
 }
 
-function Login({ onSubmit }: { onSubmit: (data: LoginData) => void }) {
+function Login({ onSubmit, loginError }: { onSubmit: (data: LoginData) => void, loginError: boolean }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [rememberMe, setRememberMe] = useState(false)
@@ -21,7 +21,7 @@ function Login({ onSubmit }: { onSubmit: (data: LoginData) => void }) {
     }
     console.log({ email, password, rememberMe })
     onSubmit(data)
-  };
+  }
 
   return (
     <div className="w-full max-w-xs my-10 mx-auto">
@@ -46,6 +46,12 @@ function Login({ onSubmit }: { onSubmit: (data: LoginData) => void }) {
             <label className="block text-sm font-medium text-white mb-1">
               Email
             </label>
+            {/* Login error */}
+            {loginError &&
+              <div className="mb-3 p-2 bg-red-900/30 border border-red-600/50 rounded text-red-200 text-xs">
+                Wrong username or password
+              </div>
+            }
             <input
               type="email"
               placeholder="you@example.com"
