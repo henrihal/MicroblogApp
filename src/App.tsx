@@ -69,18 +69,6 @@ function App() {
     }
   }
 
-  const handleCreateUser = async (data: RegisterData) => {
-    try {
-      const registeredUser = await userService.create(data)
-      if(!registeredUser) {
-        throw new Error('Failed to register user')
-      }
-      console.log('New user registered: ', registeredUser)
-    } catch(err) {
-      console.log(err)
-    }
-  }
-
   return (
     <MantineProvider>
       <BrowserRouter>
