@@ -19,10 +19,10 @@ const Createpostmodal = ({onSubmit}: {onSubmit: (data: PostData) => void}) => {
 
         // Validation
         if (!title.trim()) {
-            return setError('Title cant be empty')
+            return setError('Title or content cant be empty')
         }
         if (!content.trim()) {
-            return setError('Content cant be empty')
+            return setError('Title or content cant be empty')
         }
         const data = {
             title: title,
@@ -80,7 +80,7 @@ const Createpostmodal = ({onSubmit}: {onSubmit: (data: PostData) => void}) => {
                                     <IconX size={20} />
                                 </button>
                             </div>
-
+                            {/* Error */}
                             {error &&
                                 <div className="mb-3 p-2 bg-red-900/30 border border-red-600/50 rounded text-red-200 text-xs">
                                     {error}

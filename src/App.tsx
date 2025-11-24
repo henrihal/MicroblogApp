@@ -14,8 +14,8 @@ import PageNotFound from './pages/PageNotFound'
 import Register, { type RegisterData } from './pages/Register'
 import userService from './services/userService'
 
-interface User{
-  user:{
+interface User {
+  user: {
     id: string,
     email: string
   },
@@ -26,10 +26,11 @@ function App() {
 
   const [searchQuery, setSearchQuery] = useState('')
   const [user, setUser] = useState<null | User>(null)
+  const [loginError, setLoginError] = useState(false)
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
-    if(loggedUserJSON) {
+    if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
       postService.setToken(user.token)
@@ -37,15 +38,34 @@ function App() {
   }, [])
 
   const handleLogin = async (data: LoginData) => {
-    try {
+      setLoginError(false)
       const loggedUser = await loginSerivce.login(data)
+      if(!loggedUser) {
+        return setLoginError(true)
+      }
       setUser(loggedUser)
-      if(data.rememberMe) {
+      if (data.rememberMe) {
         window.localStorage.setItem('loggedUser', JSON.stringify(loggedUser))
       }
       postService.setToken(loggedUser.token)
+  }
+
+  useEffect(() => {
+    if (loginError) {
+      const errorTimeout = setTimeout(() => setLoginError(false), 3000)
+      return () => clearTimeout(errorTimeout)
+    }
+  }, [loginError])
+
+  const handleCreateUser = async (data: RegisterData) => {
+    try {
+      const registeredUser = await userService.create(data)
+      if (!registeredUser) {
+        throw new Error('Failed to register user')
+      }
+      console.log('New user registered: ', registeredUser)
     } catch (err) {
-      console.log('Failed to login: ', err)
+      console.log(err)
     }
   }
 
@@ -65,18 +85,18 @@ function App() {
     <MantineProvider>
       <BrowserRouter>
         <div className="min-h-screen bg-slate-900/98 flex flex-col">
-            <div className="flex-1 pb-5">
-              {user && 
-              <Navbar searchQuery={searchQuery} onSearchChange={setSearchQuery} userId={user.user.id}/>
-              }
-              <Routes>
-                <Route path="login" element={!user ? <Login onSubmit={handleLogin}/> : <Navigate replace to={"/"}/>} />
-                <Route path="register" element={!user ? <Register onSubmit={handleCreateUser} /> : <Navigate replace to={"/"}/>} />
-                <Route path="/" element={user ? <Home searchQuery={searchQuery} /> : <Navigate replace to ={"login"}/>} />
-                <Route path="profile/:id" element={<Profile />} />
-                <Route path="*" element={<PageNotFound />} />
-              </Routes>
-            </div>
+          <div className="flex-1 pb-5">
+            {user &&
+              <Navbar searchQuery={searchQuery} onSearchChange={setSearchQuery} userId={user.user.id} />
+            }
+            <Routes>
+              <Route path="login" element={!user ? <Login onSubmit={handleLogin} loginError={loginError} /> : <Navigate replace to={"/"} />} />
+              <Route path="register" element={!user ? <Register onSubmit={handleCreateUser} /> : <Navigate replace to={"/"} />} />
+              <Route path="/" element={user ? <Home searchQuery={searchQuery} /> : <Navigate replace to={"login"} />} />
+              <Route path="profile/:id" element={<Profile />} />
+              <Route path="*" element={<PageNotFound />} />
+            </Routes>
+          </div>
           <Footer />
         </div>
       </BrowserRouter>

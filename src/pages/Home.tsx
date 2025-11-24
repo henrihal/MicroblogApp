@@ -58,8 +58,8 @@ function Home({ searchQuery }: { searchQuery: string }) {
     <div className="flex flex-col items-center">
       {loading &&
         <div>
-          {Array.from({length: skeletonLoader}).map(() => (
-            <PostContainerSkeleton />
+          {Array.from({length: skeletonLoader}).map((_, index) => (
+            <PostContainerSkeleton key={index} />
           ))}
         </div>
       }

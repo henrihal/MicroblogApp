@@ -68,8 +68,8 @@ function Profile() {
         }
         {loading &&
         <div>
-          {Array.from({length: skeletonLoader}).map(() => (
-            <PostContainerSkeleton />
+          {Array.from({length: skeletonLoader}).map((_, index) => (
+            <PostContainerSkeleton key={index} />
           ))}
         </div>
       }
