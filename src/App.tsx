@@ -38,20 +38,18 @@ function App() {
   }, [])
 
   const handleLogin = async (data: LoginData) => {
-    try {
       setLoginError(false)
       const loggedUser = await loginSerivce.login(data)
+      if(!loggedUser) {
+        return setLoginError(true)
+      }
       setUser(loggedUser)
       if (data.rememberMe) {
         window.localStorage.setItem('loggedUser', JSON.stringify(loggedUser))
       }
       postService.setToken(loggedUser.token)
-    } catch (err) {
-      if (err instanceof Error) {
-        setLoginError(true)
-      }
-    }
   }
+
   useEffect(() => {
     if (loginError) {
       const errorTimeout = setTimeout(() => setLoginError(false), 3000)
