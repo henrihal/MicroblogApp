@@ -55,6 +55,13 @@ function Home({ searchQuery }: { searchQuery: string }) {
   const skeletonLoader = 6 // amount of skeleton posts for loading animation
 
   // implement handleDeletePost, also create a service
+  const handleDeletePost = async (id: number) => {
+      const deletedPost = await postService.deleteById(id)
+      if (deletedPost) {
+        setPosts(posts.filter(post => post.id !==id))
+        console.log(`Deleted post ${deletedPost}`)
+      }
+  }
 
   // implement handleUpdatePost, also create a service
 
@@ -77,7 +84,7 @@ function Home({ searchQuery }: { searchQuery: string }) {
       <div>
         <div>
           {posts.map(post =>
-          <PostContainer key={post.id} post={post} />
+          <PostContainer key={post.id} post={post} onDelete={handleDeletePost} />
         )}
         </div>
         <Createpostmodal onSubmit={handleCreatePost}/>

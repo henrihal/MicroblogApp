@@ -32,7 +32,6 @@ const getBySearch = async (query: string) => {
             throw new Error(`Response status: ${response.status}`)
         }
         const results = await response.json()
-
         return results.data
     } catch (err: unknown) {
         if (err instanceof Error) {
@@ -77,6 +76,7 @@ const deleteById = async (id: number) => {
         }
         const result = await response.json()
         console.log(result)
+        return result.data
     } catch (err: unknown) {
         if(err instanceof Error) {
             return console.log(err.message)
@@ -84,4 +84,30 @@ const deleteById = async (id: number) => {
     }
 }
 
-export default { getAll, getBySearch, setToken, create, deleteById }
+const update = async (post : {id: number, title: string, content: string}) => {
+    try {
+        const response = await fetch(`${baseUrl}/${post.id}`, {
+            method: "PUT",
+            headers: {
+                "Authorization": token!,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                title: post.title,
+                content: post.content
+            })
+        })
+        if(!response.ok) {
+            throw new Error(`Error updating post: ${response.status}`)
+        }
+        const result = await response.json()
+        console.log(result)
+        return result.data
+    } catch (err: unknown) {
+        if(err instanceof Error) {
+            console.log(err.message)
+        } 
+    }
+}
+
+export default { getAll, getBySearch, setToken, create, deleteById, update }
