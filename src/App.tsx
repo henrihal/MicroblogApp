@@ -13,8 +13,9 @@ import postService from './services/postService'
 import PageNotFound from './pages/PageNotFound'
 import Register, { type RegisterData } from './pages/Register'
 import userService from './services/userService'
+import { AuthContext } from './components/AuthContext'
 
-interface User {
+export interface User {
   user: {
     id: string,
     email: string
@@ -72,6 +73,7 @@ function App() {
   return (
     <MantineProvider>
       <BrowserRouter>
+      <AuthContext value={user}>
         <div className="min-h-screen bg-slate-900/98 flex flex-col">
           <div className="flex-1 pb-5">
             {user &&
@@ -87,6 +89,7 @@ function App() {
           </div>
           <Footer />
         </div>
+        </AuthContext>
       </BrowserRouter>
     </MantineProvider>
   )

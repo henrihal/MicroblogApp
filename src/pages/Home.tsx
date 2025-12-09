@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import postService from "../services/postService"
 import type { Post } from "../components/Post.interface"
-import PostCard from "../components/PostContainer"
+import PostContainer from "../components/PostContainer"
 import Createpostmodal from "../components/Createpostmodal"
 import type { PostData } from "../components/Createpostmodal"
 import PostContainerSkeleton from "../components/PostContainerSkeleton"
@@ -54,6 +54,10 @@ function Home({ searchQuery }: { searchQuery: string }) {
   }
   const skeletonLoader = 6 // amount of skeleton posts for loading animation
 
+  // implement handleDeletePost, also create a service
+
+  // implement handleUpdatePost, also create a service
+
   return (
     <div className="flex flex-col items-center">
       {loading &&
@@ -73,7 +77,7 @@ function Home({ searchQuery }: { searchQuery: string }) {
       <div>
         <div>
           {posts.map(post =>
-          <PostCard key={post.id} post={post} />
+          <PostContainer key={post.id} post={post} />
         )}
         </div>
         <Createpostmodal onSubmit={handleCreatePost}/>
