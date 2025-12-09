@@ -52,18 +52,26 @@ function Home({ searchQuery }: { searchQuery: string }) {
       console.log('Failed to create a post: ', err)
     }
   }
-  const skeletonLoader = 6 // amount of skeleton posts for loading animation
-
-  // implement handleDeletePost, also create a service
+  
   const handleDeletePost = async (id: number) => {
-      const deletedPost = await postService.deleteById(id)
-      if (deletedPost) {
-        setPosts(posts.filter(post => post.id !==id))
-        console.log(`Deleted post ${deletedPost}`)
-      }
+    const deletedPost = await postService.deleteById(id)
+    if (deletedPost) {
+      setPosts(posts.filter(post => post.id !==id))
+      console.log(`Deleted post ${deletedPost}`)
+    }
   }
 
-  // implement handleUpdatePost, also create a service
+  const handleUpdatePost = async (post: Post) => {
+    const updatedPost = await postService.update(post)
+    if (updatedPost) {
+      setPosts(posts.map(post => 
+        post.id === updatedPost.id ? updatedPost : post
+      ))
+      console.log(`Updated post ${updatedPost}`)
+    }
+  }
+
+  const skeletonLoader = 6 // amount of skeleton posts for loading animation
 
   return (
     <div className="flex flex-col items-center">
@@ -84,7 +92,7 @@ function Home({ searchQuery }: { searchQuery: string }) {
       <div>
         <div>
           {posts.map(post =>
-          <PostContainer key={post.id} post={post} onDelete={handleDeletePost} />
+          <PostContainer key={post.id} post={post} onDelete={handleDeletePost} onUpdate={handleUpdatePost}/>
         )}
         </div>
         <Createpostmodal onSubmit={handleCreatePost}/>

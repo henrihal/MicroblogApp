@@ -9,82 +9,102 @@ import PostContainerSkeleton from "../components/PostContainerSkeleton"
 
 function Profile() {
 
-    //fetch user
-    const params = useParams()
-    const [user, setUser] = useState('')
+  //fetch user
+  const params = useParams()
+  const [user, setUser] = useState('')
 
-      useEffect(() => {
-      const fetchUserName = async () => {
-        try {
-          const userName = await userService.getUserName(parseInt(params.id as string))
-          if(userName){
-            setUser(userName)
-          } else {
-            throw new Error('Error fetching username')
-          }
-        } catch (err) {
-          console.log('Failed to fetch username: ', err)
-          setUser('')
+  useEffect(() => {
+    const fetchUserName = async () => {
+      try {
+        const userName = await userService.getUserName(parseInt(params.id as string))
+        if (userName) {
+          setUser(userName)
+        } else {
+          throw new Error('Error fetching username')
         }
+      } catch (err) {
+        console.log('Failed to fetch username: ', err)
+        setUser('')
       }
-      fetchUserName()
-    }, [params.id])
+    }
+    fetchUserName()
+  }, [params.id])
 
-    //fetch users posts
-          const [posts, setPosts] = useState<Post[]>([])
-          const [loading, setLoading] = useState(true)
-          const [error, setError] = useState<Error | null>(null)
-        
-          useEffect(() => {
-            const fetchPosts = async () => {
-              try {
-                const posts = await postService.getAll({user_id: params.id})
-                if(Array.isArray(posts)) {
-                  setPosts(posts)
-                  setError(null)
-                } else {
-                  throw new Error('Invalid posts payload')
-                }
-              } catch(err){
-                console.log('Failed to fetch posts: ', err)
-                setError(err instanceof Error ? err: new Error('Failed to fetch posts'))
-                setPosts([])
-              } finally {
-                setLoading(false)
-              }
-            }
-            fetchPosts()
-          }, [params.id])
+  //fetch users posts
+  const [posts, setPosts] = useState<Post[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<Error | null>(null)
 
-          const skeletonLoader = 3 // amount of skeleton posts for loading animation
-
-    return(
-        <div className="flex flex-col items-center">
-        {user &&
-        <ProfileCard userName={user} userId={params.id!}/>
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const posts = await postService.getAll({ user_id: params.id })
+        if (Array.isArray(posts)) {
+          setPosts(posts)
+          setError(null)
+        } else {
+          throw new Error('Invalid posts payload')
         }
-        {!user &&
+      } catch (err) {
+        console.log('Failed to fetch posts: ', err)
+        setError(err instanceof Error ? err : new Error('Failed to fetch posts'))
+        setPosts([])
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchPosts()
+  }, [params.id])
+
+  // deleting and updating works like this but these exact same functions
+  // repeated in two different places now (home and at profile) so its not smart maybe. Figure out way to make it better
+  const handleDeletePost = async (id: number) => {
+    const deletedPost = await postService.deleteById(id)
+    if (deletedPost) {
+      setPosts(posts.filter(post => post.id !== id))
+      console.log(`Deleted post ${deletedPost}`)
+    }
+  }
+
+  const handleUpdatePost = async (post: Post) => {
+    const updatedPost = await postService.update(post)
+    if (updatedPost) {
+      setPosts(posts.map(post =>
+        post.id === updatedPost.id ? updatedPost : post
+      ))
+      console.log(`Updated post ${updatedPost}`)
+    }
+  }
+
+  const skeletonLoader = 3 // amount of skeleton posts for loading animation
+
+  return (
+    <div className="flex flex-col items-center">
+      {user &&
+        <ProfileCard userName={user} userId={params.id!} />
+      }
+      {!user &&
         <div className="text-white text-lg text-center py-5">No user available </div>
-        }
-        {loading &&
+      }
+      {loading &&
         <div>
-          {Array.from({length: skeletonLoader}).map((_, index) => (
+          {Array.from({ length: skeletonLoader }).map((_, index) => (
             <PostContainerSkeleton key={index} />
           ))}
         </div>
       }
-        {!loading && error && 
+      {!loading && error &&
         <div className="text-white text-lg text-center py-5">An error occurred fetching posts... </div>
-        }
-        {!loading && !error && posts.length===0 && 
+      }
+      {!loading && !error && posts.length === 0 &&
         <div className="text-white text-lg text-center py-5">No posts available.</div>
-        }
-        {!loading && !error && posts.length > 0 && 
+      }
+      {!loading && !error && posts.length > 0 &&
         posts.map(post =>
-          <PostCard key={post.id} post={post} />
+          <PostCard key={post.id} post={post} onUpdate={handleUpdatePost} onDelete={handleDeletePost} />
         )}
-      </div>
-    )
+    </div>
+  )
 }
 
 export default Profile
