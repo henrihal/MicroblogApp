@@ -12,7 +12,7 @@ function Register({ onSubmit }: { onSubmit: (data: RegisterData) => void }) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const data = {
             name: userName,

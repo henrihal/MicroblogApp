@@ -64,4 +64,24 @@ const create = async (post: { title: string, content: string }) => {
     }
 }
 
-export default { getAll, getBySearch, setToken, create }
+const deleteById = async (id: number) => {
+    try {
+        const response = await fetch(`${baseUrl}/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": token!
+            }
+        })
+        if(!response.ok) {
+            throw new Error(`Error deleting post: ${response.status}`)
+        }
+        const result = await response.json()
+        console.log(result)
+    } catch (err: unknown) {
+        if(err instanceof Error) {
+            return console.log(err.message)
+        }
+    }
+}
+
+export default { getAll, getBySearch, setToken, create, deleteById }

@@ -69,7 +69,7 @@ function App() {
       console.log(err)
     }
   }
-
+// fix routing problem if user logged out while on the profiles route. Right now its stupid
   return (
     <MantineProvider>
       <BrowserRouter>

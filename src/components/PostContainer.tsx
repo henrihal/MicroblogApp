@@ -6,9 +6,9 @@ import { Link } from 'react-router'
 import { AuthContext } from './AuthContext'
 import { IconDotsVertical, IconPencil, IconTrash } from '@tabler/icons-react'
 
-const PostContainer = ({ post }: { post: Post }) => {
+const PostContainer = ({ post, onDelete, onUpdate }: { post: Post, onDelete: (id: number) => void, onUpdate: (content: string) => void }) => {
   const [user, setUser] = useState('')
-  const [open, setOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
   const current_user = use(AuthContext)
 
   useEffect(() => {
@@ -28,7 +28,10 @@ const PostContainer = ({ post }: { post: Post }) => {
     fetchUserName()
   }, [post.user_id])
 
-
+  const handleDelete = () => {
+    setIsOpen(!isOpen)
+    onDelete(post.id)
+  } 
 
   return (
     <div className="px-5 w-full max-w-lg min-w-lg text-white">
@@ -38,15 +41,15 @@ const PostContainer = ({ post }: { post: Post }) => {
           <Text size="sm" c="gray"><Link to={`/profile/${post.user_id}`}>{`@${user}#${post.user_id}`}</Link></Text>
           {post.user_id === Number(current_user!.user.id) &&
             <div className="ml-auto relative">
-              <button onClick={() => setOpen(!open)} className="cursor-pointer hover:bg-gray-700/50 rounded p-1 transition-colors">
+              <button onClick={() => setIsOpen(!isOpen)} className="cursor-pointer hover:bg-gray-700/50 rounded p-1 transition-colors">
                 <IconDotsVertical size={15} />
               </button>
-              {open &&
+              {isOpen &&
                 <div className="flex flex-col z-10 absolute text-xs bg-slate-800 border border-gray-600/50 rounded">
-                  <button className="flex justify-center hover:bg-gray-700/50 rounded transition-colors w-full p-2">
+                  <button  className="flex justify-center hover:bg-gray-700/50 rounded transition-colors w-full p-2 cursor-pointer">
                     <IconPencil size={15} />
                   </button>
-                  <button className="flex justify-center text-red-400 hover:bg-gray-700/50 rounded transition-colors w-full p-2">
+                  <button onClick={() => handleDelete()} className="flex justify-center text-red-400 hover:bg-gray-700/50 rounded transition-colors w-full p-2 cursor-pointer">
                     <IconTrash size={15} />
                   </button>
                 </div>
@@ -58,7 +61,7 @@ const PostContainer = ({ post }: { post: Post }) => {
         <Text size="sm">{post.content}</Text>
       </Paper>
     </div>
-  );
+  )
 }
 
 export default PostContainer

@@ -12,7 +12,7 @@ function Login({ onSubmit, loginError }: { onSubmit: (data: LoginData) => void, 
   const [password, setPassword] = useState('')
   const [rememberMe, setRememberMe] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = {
       email: email,
