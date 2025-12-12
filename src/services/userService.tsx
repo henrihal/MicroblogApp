@@ -41,4 +41,19 @@ const create = async (newUser: { name: string, email: string, password: string }
     }
 }
 
-export default { getUserName, create }
+const getUserData = async (id: number) => {
+    try {
+        const response = await fetch(`${baseUrl}/data/${id}`)
+        if(!response.ok) {
+            throw new Error(`Response status: ${response.status}`)
+        }
+        const result = await response.json()
+        return result.data
+    } catch (err: unknown) {
+        if (err instanceof Error) {
+            console.log(err.message)
+        }
+    }
+}
+
+export default { getUserName, create, getUserData }
